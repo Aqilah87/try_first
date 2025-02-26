@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main(){
   runApp (MyApp());
@@ -23,27 +24,48 @@ class MyApp extends StatelessWidget{
 }
 
 //buat homepage
-class MyHomePage extends StatelessWidget{
+class MyHomePage extends StatefulWidget{
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String text = " ";
+
+  void changeText(String text){
+    this.setState(() {
+    this.text = text;
+    });
+  }
+
   @override
   Widget build(BuildContext context){
     // scaffold is a widget
     //scaffold>appBar>text body>text
     return Scaffold(
       appBar: AppBar(title: Text('Hello World')),
-      body: TextInputWidget()
-    );
+      body: Column(
+        children:<Widget>[
+          TextInputWidget(this.changeText), 
+          Text(this.text)]
+          )
+          );
   }
 }
 
 //stateful widget and text input
 class TextInputWidget extends StatefulWidget {
+  final Function(String) callback;
+
+  //define callback > optial name parameter
+  TextInputWidget(this.callback);
+
   @override
   _TextInputWidget createState() => _TextInputWidget();
 }
 
 class _TextInputWidget extends State<TextInputWidget> {
 final controller = TextEditingController();
-String text = "";
 
 //cleaning up the object
 @override
@@ -52,31 +74,29 @@ void dispose(){
   controller.dispose();
 }
 
-void changeText(text){
-  if(text == "Hello World!"){
-    controller.clear();
-    text = " ";
-  }
-  setState((){
-    this.text = text;
-  });
-}
+void click(){
+  widget.callback(controller.text);
+  controller.clear();
 
+}
 
   @override
   Widget build(BuildContext context) {
-    return  Column(children: <Widget>[
+    return  
       TextField(
       controller: this.controller,
       decoration: InputDecoration(
       //icon is widget
-      prefixIcon: Icon(Icons.message), labelText: "Type a message:"),
-      //changetext call function
-      onChanged: (text) => changeText(text) ,
-        ),
-        //contoller text not updating widget so need to do is figure out way
-        Text(this.text)
-    ]);
+      prefixIcon: Icon(Icons.message), labelText: "Type a message:", 
+      //button presses
+      suffixIcon: IconButton(
+      icon: Icon(Icons.send),
+      //jenis-jenis
+      splashColor: Colors.blue,
+      tooltip: "Post message",
+      //empty func
+      onPressed: this.click,
+      )));
   }
 }
 
