@@ -28,17 +28,55 @@ class MyHomePage extends StatelessWidget{
   Widget build(BuildContext context){
     // scaffold is a widget
     //scaffold>appBar>text body>text
-    return Scaffold(appBar: AppBar(title: Text('Hello World')),
-    body: Row(
-      children: <Widget>[TestWidget(), TestWidget(), TestWidget()],
-    ));
+    return Scaffold(
+      appBar: AppBar(title: Text('Hello World')),
+      body: TextInputWidget()
+    );
   }
 }
 
-// page lain
-class TestWidget extends StatelessWidget{
+//stateful widget and text input
+class TextInputWidget extends StatefulWidget {
+  @override
+  _TextInputWidget createState() => _TextInputWidget();
+}
+
+class _TextInputWidget extends State<TextInputWidget> {
+final controller = TextEditingController();
+String text = "";
+
+//cleaning up the object
+@override
+void dispose(){
+  super.dispose();
+  controller.dispose();
+}
+
+void changeText(text){
+  if(text == "Hello World!"){
+    controller.clear();
+    text = " ";
+  }
+  setState((){
+    this.text = text;
+  });
+}
+
+
   @override
   Widget build(BuildContext context) {
-    return Text('Hiiiii');
+    return  Column(children: <Widget>[
+      TextField(
+      controller: this.controller,
+      decoration: InputDecoration(
+      //icon is widget
+      prefixIcon: Icon(Icons.message), labelText: "Type a message:"),
+      //changetext call function
+      onChanged: (text) => changeText(text) ,
+        ),
+        //contoller text not updating widget so need to do is figure out way
+        Text(this.text)
+    ]);
   }
 }
+
