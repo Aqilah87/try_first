@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // scaffold is a widget
     //scaffold>appBar>text body>text
     return Scaffold(
-      appBar: AppBar(title: Text('Hello World')),
+      appBar: AppBar(title: Text('HELLO WORLD')),
       body: Column(
         children:<Widget>[
           //expanded > child
@@ -94,8 +94,9 @@ void dispose(){
 }
 
 void click(){
-  widget.callback(controller.text);
+  FocusScope.of(context).unfocus();
   controller.clear();
+  widget.callback(controller.text);
 }
 
   @override
@@ -129,13 +130,46 @@ class PostList extends StatefulWidget {
 }
 
 class _PostListState extends State<PostList> {
+  void like(Function callback){
+    this.setState(() {
+      callback();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
     itemCount: this.widget.listItems.length,
     itemBuilder: (context, index){
+      //post defined can simply access attributes of post like body
       var post = this.widget.listItems[index];
-      
+
+      return Card(
+        child: Row(children: <Widget>[
+          Expanded(
+            child: ListTile(
+              title: Text(post.body),
+              subtitle: Text(post.author),
+            )),
+
+            Row(
+              children: <Widget>[
+                Container(
+                  child: Text(post.likes.toString(),
+                  style: TextStyle(fontSize: 30)),
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  ),
+              IconButton(
+                icon: Icon(Icons.thumb_up),
+                onPressed:()=> this.like(post.likePost),
+                color: post.userLiked ?
+                //macam if else statement
+                Colors.green : Colors.black
+
+                )
+            ],)
+        ])
+        );
     },
     );
   }
