@@ -1,27 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'login.dart';
 
 void main(){
   runApp (MyApp());
-}
-
-//start listView
-class Post{
-  String body;
-  String author;
-  int likes = 0;
-  bool userLiked = false;
-
-  Post(this.body, this.author);
-
-  void likePost(){
-    this.userLiked = !this.userLiked;
-    if(this.userLiked){
-      this.likes += 1;
-    } else{
-      this.likes -= 1;
-    }
-  }
 }
 
 //statelesswidget means not going to change
@@ -37,13 +18,33 @@ class MyApp extends StatelessWidget{
       primarySwatch: Colors.blue,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
-    home: MyHomePage(),
+    home: LoginPage(),
   );
   }
 }
 
-//buat homepage
-class MyHomePage extends StatefulWidget{
+//start listView LETAK DEKAT FILE POST
+/*class Post{
+  String body;
+  String author;
+  int likes = 0;
+  bool userLiked = false;
+
+  Post(this.body, this.author);
+
+  void likePost(){
+    this.userLiked = !this.userLiked;
+    if(this.userLiked){
+      this.likes += 1;
+    } else{
+      this.likes -= 1;
+    }
+  }
+}*/
+
+
+//buat homepage PINDAH DEKAT FILE DIA
+/*class MyHomePage extends StatefulWidget{
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -70,10 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(child: TextInputWidget(this.newPost))
           ]));
   }
-}
+}*/
 
-//stateful widget and text input
-class TextInputWidget extends StatefulWidget {
+//stateful widget and text input  
+//PINDAH FILE DIA
+/*class TextInputWidget extends StatefulWidget {
   final Function(String) callback;
 
   //define callback > optial name parameter
@@ -94,9 +96,9 @@ void dispose(){
 }
 
 void click(){
+  widget.callback(controller.text);
   FocusScope.of(context).unfocus();
   controller.clear();
-  widget.callback(controller.text);
 }
 
   @override
@@ -117,10 +119,10 @@ void click(){
       onPressed: this.click,
       )));
   }
-}
+}*/
 
-//new untuk topic listView part 1
-class PostList extends StatefulWidget {
+//new untuk topic listView part 1  PINDAH FILE
+/*class PostList extends StatefulWidget {
   final List<Post> listItems;
 
   PostList(this.listItems);
@@ -173,4 +175,4 @@ class _PostListState extends State<PostList> {
     },
     );
   }
-}
+}*/
